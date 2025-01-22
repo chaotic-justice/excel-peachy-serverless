@@ -6,17 +6,25 @@ import math from "./routes/math"
 import r2 from "./routes/r2"
 import users from "./routes/users"
 import { env } from "hono/adapter"
+import { cors } from "hono/cors"
 
 type Bindings = {
   DB: D1Database
   SECRET_KEY: string
   JWT_SNACK: string
   JWT_SUB: string
-  ENVIRONMENT: string
   CORS_ORIGIN: string
 }
 
 const app = new Hono<{ Bindings: Bindings }>()
+
+app.use("/api/math/*", async (c, next) => {
+  const origins = c.env.CORS_ORIGIN.split(", ")
+  const corsMiddlewareHandler = cors({
+    origin: origins,
+  })
+  return corsMiddlewareHandler(c, next)
+})
 
 app.use(
   "/api/math/*",
@@ -35,9 +43,8 @@ app.use(
 )
 
 app.get("/", (c) => {
-  const environ = c.env.ENVIRONMENT
-  const origins = c.env.CORS_ORIGIN
-  return c.json({ message: "Honc from above! ☁️🪿", environ, origins })
+  const origins = c.env.CORS_ORIGIN.split(", ")
+  return c.json({ message: "Honc from above! ☁️🪿", origins })
 })
 
 app.route("/api/users", users)

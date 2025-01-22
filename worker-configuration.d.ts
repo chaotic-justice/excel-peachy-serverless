@@ -2,8 +2,7 @@
 
 interface Env {
 	MY_VAR: "my-variable";
-	ENVIRONMENT: "dev";
-	CORS_ORIGINS: "http://localhost:3000";
+	CORS_ORIGIN: "http://localhost:3000, https://open.spotify.com";
 	FPX_ENDPOINT: string;
 	SECRET_KEY: string;
 	JWT_SNACK: string;

@@ -12,11 +12,7 @@ migrations_dir = "drizzle/migrations"
 
 [vars]
 MY_VAR = "my-variable"
-ENVIRONMENT = "dev"
-CORS_ORIGIN = "http://localhost:3000"
-
-[env.production]
-vars = { ENVIRONMENT = "production", CORS_ORIGIN = "http://localhost:3000, https://open.spotify.com" }
+CORS_ORIGIN = "http://localhost:3000, https://open.spotify.com"
 
 # Workers Logs
 # Docs: https://developers.cloudflare.com/workers/observability/logs/workers-logs/

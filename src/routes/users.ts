@@ -6,20 +6,15 @@ import { users } from "./../db/schema"
 
 type Bindings = {
   DB: D1Database
-  ENVIRONMENT: string
 }
 
 const app = new Hono<{ Bindings: Bindings }>()
 
 app
-  .get("/", async (c) => {
+  .get("/allUsers", async (c) => {
     const db = drizzle(c.env.DB)
     const res = await db.select().from(users)
-    return c.json(res)
-  })
-  .get("/env", async (c) => {
-    const environ = c.env.ENVIRONMENT
-    return c.json({ environ })
+    return c.json({ data: res, error: null })
   })
   .post("/", zValidator("json", newUserSchema), async (c) => {
     const db = drizzle(c.env.DB)
