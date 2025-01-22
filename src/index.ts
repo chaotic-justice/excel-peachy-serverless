@@ -12,6 +12,8 @@ type Bindings = {
   SECRET_KEY: string
   JWT_SNACK: string
   JWT_SUB: string
+  ENVIRONMENT: string
+  CORS_ORIGIN: string
 }
 
 const app = new Hono<{ Bindings: Bindings }>()
@@ -33,7 +35,9 @@ app.use(
 )
 
 app.get("/", (c) => {
-  return c.text("Honc from above! ☁️🪿")
+  const environ = c.env.ENVIRONMENT
+  const origins = c.env.CORS_ORIGIN
+  return c.json({ message: "Honc from above! ☁️🪿", environ, origins })
 })
 
 app.route("/api/users", users)
