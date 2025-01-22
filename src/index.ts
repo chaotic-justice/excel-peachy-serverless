@@ -23,7 +23,6 @@ app.use(
       const { SECRET_KEY, JWT_SNACK, JWT_SUB } = env(c)
       try {
         const decodedPayload = await verify(token, SECRET_KEY)
-        console.log("decodedPayload", decodedPayload)
         return decodedPayload.sub === JWT_SUB && decodedPayload.snack === JWT_SNACK
       } catch (error: Error | any) {
         console.log(error.message)

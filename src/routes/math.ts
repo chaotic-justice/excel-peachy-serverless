@@ -13,12 +13,12 @@ type Bindings = {
 const app = new Hono<{ Bindings: Bindings }>()
 
 app
-  .get("/workers", async (c) => {
+  .get("/allWorkers", async (c) => {
     const db = drizzle(c.env.DB)
     const res = await db.select().from(workers).all()
-    return c.json(res)
+    return c.json({ data: res })
   })
-  .get("/workersBy/:authorId", async (c) => {
+  .get("/workers/:authorId", async (c) => {
     const authorId: string | undefined = c.req.param("authorId")
     const { kind, status } = c.req.query()
 
@@ -39,7 +39,7 @@ app
       .from(workers)
       .where(and(...filters))
 
-    return c.json(res)
+    return c.json({ data: res })
   })
   .get("/docs/:workerId?", async (c) => {
     let workerId: number | string | undefined = c.req.param("workerId")
@@ -75,7 +75,7 @@ app
       return c.json({ data: newDocument })
     } catch (error) {
       // @ts-ignore
-      return c.json({ data: null, message: error.message }, 400)
+      return c.json({ data: null, error: error.message }, 400)
     }
   })
   .post("/workers", async (c) => {
@@ -96,7 +96,7 @@ app
       return c.json({ data: newWorker })
     } catch (error) {
       // @ts-ignore
-      return c.json({ data: null, message: error.message }, 400)
+      return c.json({ data: null, error: error.message }, 400)
     }
   })
   .put("/workers/:workerId", zValidator("json", newWorkerSchema.pick({ status: true })), async (c) => {

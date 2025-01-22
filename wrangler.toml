@@ -6,7 +6,6 @@ compatibility_flags = [ "nodejs_compat" ]
 binding = "DB"
 database_name = "honc-d1-database"
 database_id = "local-honc-d1-database"
-# database_id = "520c7e80-8103-47c8-a2f9-496d4429d8dd"
 migrations_dir = "drizzle/migrations"
 
 # [vars]
@@ -22,9 +21,10 @@ enabled = true
 # binding = "MY_KV_NAMESPACE"
 # id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 
-# [[r2_buckets]]
-# binding = "MY_BUCKET"
-# bucket_name = "my-bucket"
+[[r2_buckets]]
+binding = "MY_BUCKET"
+bucket_name = "siberia-tea-cup"
+preview_bucket_name = "preview-tea-cup"
 
 # [ai]
 # binding = "AI"
