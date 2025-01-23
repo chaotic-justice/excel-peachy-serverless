@@ -7,6 +7,7 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "wrangler d1 migrations apply honc-d1-database --local",
     "db:migrate:prod": "ENVIROMENT=production drizzle-kit migrate",
+    "db:push:prod": "ENVIROMENT=production drizzle-kit push",
     "db:seed": "tsx seed.ts",
     "db:reset": "tsx reset.ts",
     "db:setup": "npm run db:touch && npm run db:generate && npm run db:migrate && npm run db:seed",

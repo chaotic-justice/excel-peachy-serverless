@@ -16,27 +16,18 @@ const seedDatabase = async () => {
   try {
     // Read more about seeding here: https://orm.drizzle.team/docs/seed-overview#drizzle-seed
     await seed(db, schema).refine((f) => ({
-      users: {
-        count: 2,
-        columns: {
-          createdAt: f.timestamp(),
-          updatedAt: f.timestamp(),
-        },
-      },
       workers: {
         count: 7,
         columns: {
           kind: f.valuesFromArray({
             values: ["unknown", "costco", "sales-agents", "banking"],
           }),
-          status: f.valuesFromArray({
-            values: ["not_started", "started", "failed", "complete"],
-          }),
           createdAt: f.timestamp(),
           updatedAt: f.timestamp(),
         },
         with: {
           documents: 6,
+          reports: 1,
         },
       },
     }))

@@ -4,7 +4,6 @@ import { bearerAuth } from "hono/bearer-auth"
 import { verify } from "hono/jwt"
 import math from "./routes/math"
 import r2 from "./routes/r2"
-import users from "./routes/users"
 import { env } from "hono/adapter"
 import { cors } from "hono/cors"
 
@@ -47,7 +46,6 @@ app.get("/", (c) => {
   return c.json({ message: "Honc from above! ☁️🪿", origins })
 })
 
-app.route("/api/users", users)
 app.route("/api/math", math)
 app.route("/api/r2", r2)
 
