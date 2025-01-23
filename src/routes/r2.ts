@@ -1,14 +1,22 @@
-import { Hono } from "hono"
-import { drizzle } from "drizzle-orm/d1"
-import { documents } from "../db/schema"
 import { zValidator } from "@hono/zod-validator"
-import { newDocumentSchema, newWorkerSchema } from "../types/validation"
+import { drizzle } from "drizzle-orm/d1"
+import { Hono } from "hono"
+import { z } from "zod"
+import { documents } from "../db/schema"
 
 type Bindings = {
   DB: D1Database
   MY_BUCKET: R2Bucket
   SECRET_KEY: string
 }
+
+const UploadQueryParams = z.object({
+  kind: z
+    .union([z.literal("unknown"), z.literal("costco"), z.literal("sales-agents"), z.literal("banking"), z.undefined()])
+    .optional()
+    .nullable(),
+  workerId: z.string(),
+})
 
 const app = new Hono<{ Bindings: Bindings }>()
 
@@ -26,10 +34,10 @@ app
     const fileExtension = fileName.split(".").pop()?.toLowerCase()
     return c.text(fileName, 200)
   })
-  .post("/upload", zValidator("json", newDocumentSchema.pick({ workerId: true }).merge(newWorkerSchema.pick({ kind: true }))), async (c) => {
+  .post("/upload", zValidator("query", UploadQueryParams), async (c) => {
     const db = drizzle(c.env.DB)
     const formData = await c.req.parseBody()
-    const { workerId, kind } = c.req.valid("json")
+    const { workerId, kind } = c.req.valid("query")
     const file = formData["file"]
 
     if (file instanceof File) {
@@ -43,6 +51,7 @@ app
       try {
         const [newDocument] = await db
           .insert(documents)
+          // @ts-ignore
           .values({
             name: file.name,
             workerId,
