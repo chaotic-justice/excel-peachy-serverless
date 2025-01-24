@@ -7,6 +7,10 @@ export type NewDocument = typeof documents.$inferInsert
 export type NewWorker = typeof workers.$inferInsert
 export type NewReport = typeof reports.$inferInsert
 
+/*
+after making changes in this file and running a migration, copy the new types from above (intellisencse), rerun types:gen command to generate new types for frontend client
+*/
+
 // r2 path can be formed by /math/tagName/doc-name
 export const documents = table("documents", {
   id: t.int().primaryKey({ autoIncrement: true }),
@@ -20,7 +24,7 @@ export const documents = table("documents", {
 export const workers = table("workers", {
   id: t.int().primaryKey({ autoIncrement: true }),
   name: t.text("name").notNull(),
-  kind: t.text({ enum: ["unknown", "costco", "sales-agents", "banking"] }).default("unknown"),
+  kind: t.text({ enum: ["unknown", "costco", "sales-agents", "banking"] }).notNull(),
   createdAt: t
     .text("created_at")
     .notNull()

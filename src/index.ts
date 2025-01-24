@@ -21,11 +21,6 @@ app.use("/api/*", async (c, next) => {
   const origins = c.env.CORS_ORIGIN.split(", ")
   const corsMiddlewareHandler = cors({
     origin: origins,
-    // allowHeaders: ["X-Custom-Header", "Upgrade-Insecure-Requests"],
-    // allowMethods: ["POST", "GET", "PUT", "DELETE"],
-    // exposeHeaders: ["Content-Length", "X-Kuma-Revision"],
-    // maxAge: 600,
-    // credentials: true,
   })
   return corsMiddlewareHandler(c, next)
 })
