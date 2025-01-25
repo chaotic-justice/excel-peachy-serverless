@@ -12,7 +12,7 @@ migrations_dir = "drizzle/migrations"
 
 [vars]
 MY_VAR = "my-variable"
-CORS_ORIGIN = "http://localhost:3000, https://open.spotify.com"
+CORS_ORIGIN = "http://localhost:3000, https://excel-stunning-pork.vercel.app"
 
 # Workers Logs
 # Docs: https://developers.cloudflare.com/workers/observability/logs/workers-logs/

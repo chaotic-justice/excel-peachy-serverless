@@ -27,7 +27,7 @@ This is how it works
 - runs `db:generate` to create the database migration _files_
 - runs `db:migrate` to apply the migration files (run them) on the local database
 - runs `db:seed` to seed the local database with some data
-- run `npx drizzle-kit push` after dropping or creating a table
+- run `npx drizzle-kit push` after dropping or creating a table?
 
 ## Production
 
