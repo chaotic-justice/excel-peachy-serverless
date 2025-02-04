@@ -40,13 +40,19 @@ app
     const { workerId, kind } = c.req.valid("query")
     const file = formData["file"]
 
+
     if (file instanceof File) {
       const fileBuffer = await file.arrayBuffer()
-      // const fullName = file.name
       // const nameWithoutExt = fullName.substring(0, fullName.lastIndexOf(".")) || fullName
-      // const ext = fullName.split(".").pop()?.toLowerCase()
-      const path = `math/${kind}/${file.name}`
-      const res = await c.env.MY_BUCKET.put(path, fileBuffer)
+      const ext = file.name.split(".").pop()?.toLowerCase()
+      const putOptions: R2PutOptions = {
+        httpMetadata: {
+          contentType: ext === "xlsx" ? "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" : undefined,
+        },
+      }
+      const res = await c.env.MY_BUCKET.put(`math/${kind}/${file.name}`, fileBuffer, {
+        ...putOptions,
+      })
 
       try {
         const [newDocument] = await db
